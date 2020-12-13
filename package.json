@@ -26,9 +26,9 @@
   },
   "homepage": "https://github.com/yysun/esm-server#readme",
   "dependencies": {
-    "live-server": "^1.2.1",
     "acorn": "^8.0.4",
     "estree-walker": "^2.0.2",
+    "live-server": "^1.2.1",
     "magic-string": "^0.25.7"
   }
 }
