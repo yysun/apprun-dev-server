@@ -1,13 +1,20 @@
 {
   "name": "esm-server",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "esm-fix.js",
-  "bin": "index.js",
+  "bin": {
+    "esm-server": "index.js"
+  },
   "scripts": {
     "start": "live-server public"
   },
-  "keywords": ["web server", "HTTP", "dev-server", "esm"],
+  "keywords": [
+    "web server",
+    "HTTP",
+    "dev-server",
+    "esm"
+  ],
   "author": "Yiyi Sun <yiyisun@gmail.com>",
   "license": "MIT",
   "repository": {
