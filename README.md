@@ -1,14 +1,14 @@
 # esm-server
 
-This is a static web server for JavaScript/TypeScript development using ES modules. It is based on [live-server](https://www.npmjs.com/package/live-server) and also can serve ES Modules from unpkg.com.
+This is a static web server for developing JavaScript/TypeScript using ES modules. It is based on [live-server](https://www.npmjs.com/package/live-server) and also can serve ES Modules from unpkg.com.
 
 # How to Use
 
 Under you project folder, run
 ```
-npx live-esm-server
+npx esm-server
 ```
-
+![](esm-server.gif)
 # Configuration
 
 Create a esm-server.config.js in your project:
@@ -27,3 +27,6 @@ module.exports = {
 }
 ```
 
+PR welcome. Happy coding!
+
+(C) Copyright 2020, Yiyi Sun
