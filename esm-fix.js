@@ -15,11 +15,9 @@ function fix(module) {
   }
 }
 
-function fixFile(root, url) {
+module.exports = (root, url) => {
   const file = path.join(root, url);
-
   if (!fs.existsSync(file)) return;
-
   let code = fs.readFileSync(file).toString();
   const ast = Parser.parse(code, { sourceType: 'module', ecmaVersion: 11 });
   const magicString = new MagicString(code);
@@ -38,28 +36,15 @@ function fixFile(root, url) {
       }
     }
   });
+  return hasFix ? magicString.toString() : code;
 
-  if (hasFix) {
-    console.log('\t ...... ' + file)
-    fs.writeFileSync(file, magicString.toString());
-    // fs.writeFileSync(file + '.map', magicString.generateMap({
-    //   file,
-    //   includeContent: true,
-    //   hires: true
-    // }));
-  }
-}
-
-module.exports = (root) => {
-  return (req, res, next) => {
-    var ext = path.extname(req.url).toLocaleLowerCase();
-    if (ext === ".js") {
-      try {
-        fixFile(root, req.url);
-      } catch (e) {
-        console.log(e.message);
-      }
-    }
-    next();
-  }
+  // if (hasFix) {
+  //   console.log('\t ...... ' + file)
+  //   fs.writeFileSync(file, magicString.toString());
+  //   // fs.writeFileSync(file + '.map', magicString.generateMap({
+  //   //   file,
+  //   //   includeContent: true,
+  //   //   hires: true
+  //   // }));
+  // }
 }

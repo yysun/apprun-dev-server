@@ -1,4 +1,4 @@
-import app from 'https://unpkg.com/apprun?module'
+import app from 'apprun'
 import print from './print.js'
 
 print();
