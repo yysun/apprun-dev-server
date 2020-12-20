@@ -1,6 +1,6 @@
 {
   "name": "esm-server",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "esm-fix.js",
   "bin": {
