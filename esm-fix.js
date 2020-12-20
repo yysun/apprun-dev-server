@@ -8,7 +8,7 @@ function fix(module) {
   if (module.startsWith('http://') || module.startsWith('https://')) {
     return;
   } else if (module.startsWith('/') || module.startsWith('./') || module.startsWith('../')) {
-    if (!module.endsWith('js')) return `'${module}.js'`;
+    if (!module.endsWith('js')) return `'${module}.js?${new Date().getTime()}'`;
     else return;
   } else {
     return `'https://unpkg.com/${module}?module'`;
@@ -38,7 +38,7 @@ module.exports = (root, url) => {
   });
 
   if (hasFix) {
-    console.log('\t ...... ' + file);
+    console.log('\t ...... ' + path.relative(root, file));
     return magicString.toString();
     // fs.writeFileSync(file, magicString.toString());
     // fs.writeFileSync(file + '.map', magicString.generateMap({

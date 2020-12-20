@@ -1,0 +1,84 @@
+<!-- Code injected by live-server -->
+<script type="text/javascript">
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			const _apprun = window['app'] && window['_AppRunVersions'];
+			if (!_apprun) {
+				console.warn('AppRun not found. Page will reload but without hot module replacement.');
+			}
+			if (_apprun && !app['debug']) {
+				console.warn('AppRun DevTools not found. It is required to enable hot module replacement.');
+			}
+			if (_apprun && app['debug']) {
+				console.log('AppRun hot module replacement enabled');
+			}
+
+			const get_components = () => {
+				const o = { components: {} };
+				app.run('get-components', o);
+				const { components } = o;
+				return components;
+			};
+
+			const load_module = (name) => {
+				if (!name || !name.endsWith('.js')) return;
+				// console.log('replacing ... ', name)
+				import(`/${name}?${new Date().getTime()}`).then(module => {
+					const {default: C} = module;
+					const cache = get_components();
+					Object.keys(cache).forEach(el => {
+						cache[el].forEach(component => {
+							if (C.name===component.constructor.name){
+								const comp = new C().mount(el);
+								comp.setState(component.state, {render: false});
+								component.unmount();
+								component.element = null;
+								console.warn('replaced: ', C.name, {keep_state: component.state});
+								// app.run('debug', {component: C, _:'~', keep_state: component.state })
+							}
+						});
+						cache[el] = cache[el].filter(c => c.element != null);
+					});
+					app.route(location.hash);
+				}).catch(()=> window.location.reload());
+			};
+
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					head.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					head.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				const [type, changedPath] = msg.data.split('|');
+				// console.log(type, changedPath || '');
+				if (type == 'refreshcss') refreshCSS();
+				else if (type == 'changed') {
+					if (_apprun && app['debug']) {
+						if (changedPath.endsWith('.html')) {
+							window.location.reload();
+						} else if (changedPath.endsWith('.js')) {
+							load_module(changedPath);
+						}
+					} else {
+						window.location.reload();
+					}
+				}
+			};
+			console.log('Live reload enabled.');
+		})();
+	}
+	// ]]>
+</script>
