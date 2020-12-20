@@ -36,15 +36,16 @@ module.exports = (root, url) => {
       }
     }
   });
-  return hasFix ? magicString.toString() : code;
 
-  // if (hasFix) {
-  //   console.log('\t ...... ' + file)
-  //   fs.writeFileSync(file, magicString.toString());
-  //   // fs.writeFileSync(file + '.map', magicString.generateMap({
-  //   //   file,
-  //   //   includeContent: true,
-  //   //   hires: true
-  //   // }));
-  // }
+  if (hasFix) {
+    console.log('\t ...... ' + file);
+    return magicString.toString();
+    // fs.writeFileSync(file, magicString.toString());
+    // fs.writeFileSync(file + '.map', magicString.generateMap({
+    //   file,
+    //   includeContent: true,
+    //   hires: true
+    // }));
+  }
+  return code;
 }
