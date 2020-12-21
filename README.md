@@ -6,7 +6,7 @@ This is a static web server for developing JavaScript/TypeScript using ES module
 * Based on [live-server](https://www.npmjs.com/package/live-server), so it reloads the page automatically
 * Also, it detects [AppRun](https://github.com/yysun/apprun) and can replace the module/Component while keeping the application _state_.
 
-![](apprun-hmr.gif)
+![](public/apprun-hmr.gif)
 # How to Use
 
 You export Component as the default module export.
@@ -53,7 +53,7 @@ Turn on the compiler, TypeScript or Babel in watch mode. And then, start the esm
 ```
 npx esm-server
 ```
-![](esm-server.gif)
+![](public/esm-server.gif)
 
 esm-server checks and modifies *.js file if they have global modules. In the console, if you see the file names that have some dots '......' in front, they are the files modified.
 
