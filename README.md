@@ -1,27 +1,39 @@
 # esm-server
 
-This is a static web server for developing JavaScript/TypeScript using ES modules. It is based on [live-server](https://www.npmjs.com/package/live-server) and also can serve ES Modules from unpkg.com.
+This is a static web server for developing JavaScript/TypeScript using ES modules following the concept of [Unbundled Development](https://www.snowpack.dev/concepts/how-snowpack-works).
 
+* It serves the ES Modules from unpkg.com.
+* Based on [live-server](https://www.npmjs.com/package/live-server), so it reloads the page automatically
+* Also, it detects [AppRun](https://github.com/yysun/apprun) and can replace the module/Component while keeping the application _state_.
+
+![](apprun-hmr.gif)
 # How to Use
 
-You code using modules.
+You export Component as the default module export.
 
 ```javascript
-import app from 'apprun';
-import Home from './Home';
-import About from './About/index';
-import Contact from './Contact';
-import Layout from './Layout';
+import { app, Component } from 'apprun';
 
-app.render(document.body, <Layout />);
-
-const element = 'my-app';
-About(element, { route: '#About' });
-Contact(element, { route: '#Contact' });
-new Home().start(element);
+export default class AboutComponent extends Component {
+  state = 'About';
+  view = state => <div>
+    <h1>{state}</h1>
+  </div>;
+  update = {
+    '#About': state => state,
+  };
+}
 ```
 
-You use modules in HTML.
+Then, you use the Component in the main file.
+
+```javascript
+import About from './About';
+
+new About().start('my-app');
+```
+
+Then, you use module-type script tag in HTML.
 
 ```html
 <!DOCTYPE html>
@@ -36,7 +48,7 @@ You use modules in HTML.
 </html>
 ```
 
-If you are using a compiler TypeScript or Babel, run them in watch mode. Then, start the esm-server using npx.
+Turn on the compiler, TypeScript or Babel in watch mode. And then, start the esm-server using npx.
 
 ```
 npx esm-server
@@ -45,7 +57,7 @@ npx esm-server
 
 esm-server checks and modifies *.js file if they have global modules. In the console, if you see the file names that have some dots '......' in front, they are the files modified.
 
-You can download an example app to give it a try to feel how fast the [Unbundled Development](https://www.snowpack.dev/concepts/how-snowpack-works) can be.
+You can download an example app to give it a try.
 
 ```
 npx degit yysun/apprun-esm-server my-app
@@ -68,7 +80,6 @@ module.exports = {
   logLevel: 2, //
 }
 ```
-
 # Future Plan
 
 Don't want esm-server to invoke compilers/loaders. It is perfectly fine to use the TypeScript compiler in watch mode. esm-server is a webserver to serve modules. Nothing else.
