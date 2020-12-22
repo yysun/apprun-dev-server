@@ -9,7 +9,6 @@ module.exports = (root) => {
     var ext = path.extname(file).toLocaleLowerCase();
     if (ext === ".js") {
       try {
-        fix(root, file);
         const code = fix(root, file);
         if (!code) {
           next();
