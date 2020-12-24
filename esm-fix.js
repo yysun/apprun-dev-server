@@ -1,5 +1,4 @@
 const fs = require('fs');
-const path = require('path');
 const MagicString = require('magic-string');
 const { Parser } = require('acorn');
 const walk = require('estree-walker').walk;
@@ -15,9 +14,7 @@ function fix(module) {
   }
 }
 
-module.exports = (root, url) => {
-  const file = path.join(root, url);
-  if (!fs.existsSync(file)) return;
+module.exports = file => {
   let code = fs.readFileSync(file).toString();
   const ast = Parser.parse(code, { sourceType: 'module', ecmaVersion: 11 });
   const magicString = new MagicString(code);
@@ -38,7 +35,6 @@ module.exports = (root, url) => {
   });
 
   if (hasFix) {
-    console.log('\t ...... ' + path.relative(root, file));
     return magicString.toString();
     // fs.writeFileSync(file, magicString.toString());
     // fs.writeFileSync(file + '.map', magicString.generateMap({
