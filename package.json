@@ -13,10 +13,10 @@
     "node": ">=12.3.0"
   },
   "keywords": [
-    "web server",
-    "HTTP",
+    "webserver",
+    "live-server",
     "dev-server",
-    "esm"
+    "module"
   ],
   "author": "Yiyi Sun <yiyisun@gmail.com>",
   "license": "MIT",
