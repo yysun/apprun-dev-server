@@ -9,6 +9,9 @@
   "scripts": {
     "start": "live-server public"
   },
+  "engines": {
+    "node": ">=12.3.0"
+  },
   "keywords": [
     "web server",
     "HTTP",
