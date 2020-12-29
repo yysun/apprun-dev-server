@@ -21,7 +21,7 @@ if (fs.existsSync(configPath)) {
 	assign(opts, JSON.parse(userConfig));
 	if (opts.ignorePattern) opts.ignorePattern = new RegExp(opts.ignorePattern);
 }
-const config = './esm-server.config.js'
+const config = './apprun-dev-server.config.js'
 if (fs.existsSync(config)) {
 	const options = require(config);
 	opts = { ...opts, ...options };

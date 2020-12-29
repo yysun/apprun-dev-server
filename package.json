@@ -1,13 +1,13 @@
 {
-  "name": "esm-server",
+  "name": "apprun-dev-server",
   "version": "1.1.1",
   "description": "",
   "main": "esm-fix.js",
   "bin": {
-    "esm-server": "index.js"
+    "apprun-dev-server": "index.js"
   },
   "scripts": {
-    "start": "live-server public"
+    "start": "node index.js public"
   },
   "engines": {
     "node": ">=12.3.0"
@@ -22,12 +22,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yysun/esm-server.git"
+    "url": "git+https://github.com/yysun/apprun-dev-server.git"
   },
   "bugs": {
-    "url": "https://github.com/yysun/esm-server/issues"
+    "url": "https://github.com/yysun/apprun-dev-server/issues"
   },
-  "homepage": "https://github.com/yysun/esm-server#readme",
+  "homepage": "https://github.com/yysun/apprun-dev-server#readme",
   "dependencies": {
     "acorn": "^8.0.4",
     "estree-walker": "^2.0.2",
