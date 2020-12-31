@@ -23,7 +23,7 @@ if (fs.existsSync(configPath)) {
 }
 const config = './apprun-dev-server.config.js'
 if (fs.existsSync(config)) {
-	const options = require(config);
+	const options = require(path.resolve(config));
 	opts = { ...opts, ...options };
 }
 
