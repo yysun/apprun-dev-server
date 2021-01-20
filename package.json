@@ -2,7 +2,7 @@
   "name": "apprun-dev-server",
   "version": "1.2.0",
   "description": "",
-  "main": "esm-fix.js",
+  "main": "live-server-fork/index.js",
   "bin": {
     "apprun-dev-server": "index.js"
   },
