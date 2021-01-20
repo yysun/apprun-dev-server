@@ -7,7 +7,7 @@ function fix(module) {
   if (module.startsWith('http://') || module.startsWith('https://')) {
     return;
   } else if (module.startsWith('/') || module.startsWith('./') || module.startsWith('../')) {
-    if (!module.endsWith('js')) return `'${module}.js?${new Date().getTime()}'`;
+    if (!module.endsWith('js')) return `'${module}.js'`;
     else return;
   } else {
     return `'https://unpkg.com/${module}?module'`;
@@ -43,5 +43,5 @@ module.exports = file => {
     //   hires: true
     // }));
   }
-  return code;
+  // return code;
 }
