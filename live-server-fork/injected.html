@@ -1,17 +1,34 @@
 <!-- Code injected by live-server -->
-<script type="text/javascript">
+<script defer type="text/javascript">
 	// <![CDATA[  <-- For SVG support
 	if ('WebSocket' in window) {
 		(function () {
 			const _apprun = window['app'] && window['_AppRunVersions'];
-			let apprun_hmr = _apprun && !window['no_apprun_hmr'];
+			if (!_apprun) {
+				console.warn('AppRun not found. Page will reload but without hot module replacement.');
+			}
+			if (_apprun && !app['debug']) {
+				console.warn('AppRun DevTools not found. It is required to enable hot module replacement.');
+			}
+			if (_apprun && app['debug']) {
+				console.log('AppRun hot module replacement enabled');
+			}
+		  const apprun_hmr = _apprun && app['debug'] && !app['no_hmr'];
 			const get_components = () => {
-				let all = document.querySelectorAll('*')
-				const components = [];
-				for (let element of all) {
-					if (element._component) components.push(element._component);
+				const o = { components: {} };
+				app.run('get-components', o);
+				const { components } = o;
+				const cache = {};
+				for (const [el, comps] of components) {
+					const id = typeof el === 'string'
+						? el
+						: (el.parentElement ? el : null)
+					if (id) {
+						cache[id] = cache[id] || [];
+						cache[id] = cache[id].concat(comps.filter(c=>!!c.element));
+					}
 				}
-				return components;
+				return cache;
 			};
 
 			const load_module = (name) => {
@@ -19,21 +36,23 @@
 				// console.log('replacing ... ', name)
 				import(`/${name}?${new Date().getTime()}`).then(module => {
 					const { default: C } = module;
-					const components = get_components();
-					components.forEach(component => {
-						if (C.name === component.constructor.name) {
-							const comp = new C().mount(component.element);
-							comp.setState(component.state, { render: false });
-							component.unmount();
-							component.element = null;
-							console.warn('replaced: ', C.name, { keep_state: component.state });
-						}
+					const cache = get_components();
+					let reload = true;
+					Object.keys(cache).forEach(el => {
+						cache[el].forEach(component => {
+							if (C.name === component.constructor.name) {
+								const comp = new C().mount(el);
+								comp.setState(component.state, { render: false });
+								component.unmount();
+								component.element = null;
+								console.warn('replaced: ', C.name, { keep_state: component.state });
+								reload = false;
+							}
+						});
+						cache[el] = cache[el].filter(c => c.element != null);
 					});
-					app.route(location.hash);
-				}).catch(err => {
-					console.error(err);
-					window.location.reload();
-				});
+					reload ? window.location.reload() : app.route(location.hash);
+				}).catch(() => window.location.reload());
 			};
 
 			function refreshCSS() {
@@ -65,11 +84,7 @@
 					}
 				}
 			};
-			if (apprun_hmr) {
-				console.log('Live reload and AppRun hot module replacement enabled.');
-			} else {
-				console.log('Live reload enabled.');
-			}
+			console.log('Live reload enabled.');
 		})();
 	}
 	// ]]>
