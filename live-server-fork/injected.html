@@ -1,19 +1,17 @@
 <!-- Code injected by live-server -->
-<script defer type="text/javascript">
+<script type="text/javascript">
 	// <![CDATA[  <-- For SVG support
 	if ('WebSocket' in window) {
-		(function () {
+		function _init_refresh() {
 			const _apprun = window['app'] && window['_AppRunVersions'];
-			if (!_apprun) {
-				console.warn('AppRun not found. Page will reload but without hot module replacement.');
+			const apprun_hmr = _apprun && app['debug'] && !app['no_hmr'];
+			if (_apprun) {
+				if (!app['debug']) {
+					console.warn('AppRun found. Use AppRun DevTools or set app["debug"]=true to enable hot module replacement.');
+				} else if (apprun_hmr) {
+					console.log('AppRun hot module replacement enabled');
+				}
 			}
-			if (_apprun && !app['debug']) {
-				console.warn('AppRun DevTools not found. It is required to enable hot module replacement.');
-			}
-			if (_apprun && app['debug']) {
-				console.log('AppRun hot module replacement enabled');
-			}
-		  const apprun_hmr = _apprun && app['debug'] && !app['no_hmr'];
 			const get_components = () => {
 				const o = { components: {} };
 				app.run('get-components', o);
@@ -25,7 +23,7 @@
 						: (el.parentElement ? el : null)
 					if (id) {
 						cache[id] = cache[id] || [];
-						cache[id] = cache[id].concat(comps.filter(c=>!!c.element));
+						cache[id] = cache[id].concat(comps.filter(c => !!c.element));
 					}
 				}
 				return cache;
@@ -85,7 +83,8 @@
 				}
 			};
 			console.log('Live reload enabled.');
-		})();
+		};
+		window.addEventListener('DOMContentLoaded', _init_refresh);
 	}
 	// ]]>
 </script>
